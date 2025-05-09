@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"name": "Acuario",
+			"path": "."
+		}
+	],
+	"settings": {
+		"git.ignoreLimitWarning": true
+	}
+}
