@@ -3,22 +3,48 @@
 //Definiciones para los menus
 
 #define MAX_ITEM_LENGTH  20
-#define NUM_ITEMS_MAIN  4
-#define NUM_ITEMS_DATOS  4
-#define NUM_ITEMS_GRAFICOS  4
+#define NUM_ITEMS_MAIN  5
+#define NUM_ITEMS_DATOS  3
+#define NUM_ITEMS_GRAFICOS  3
+#define NUM_ITEMS_SALIDAS 4
 
 enum{
 	menu_principal,
 	menu_datos,
 	menu_graficos,
+  menu_salidas,
 	menu_red,
 	menu_info
 }menu_name;
+
+enum{
+  datos,
+  graficos,
+  red,
+  info
+}menu_principal_items;
+
+enum{
+  Temperatura_1,
+  Temperatura_2,
+  PH
+}menu_datos_items;
+
+enum{
+  Temperatura_1,
+  Temperatura_2,
+  PH
+}menu_graficos_items;
+
+enum{
+
+}menu_red_items;
 
 //Definición de los distintos menus
 const char main_menu_items [NUM_ITEMS_MAIN][MAX_ITEM_LENGTH] = {
 	{ "Datos" },
 	{ "Graficos" },
+  { "Salidas" },
 	{ "Red" },
 	{ "Info" },
 };
@@ -33,6 +59,13 @@ const char graficos_menu_items [NUM_ITEMS_GRAFICOS][MAX_ITEM_LENGTH] = {
 	{"Temp. Agua:"},
 	{"Temp. Amb:"},
 	{"PH:"}
+};
+
+const char salidas_menu_items [NUM_ITEMS_SALIDAS][MAX_ITEM_LENGTH] = {
+	{"Salida 1"},
+	{"Salida 2"},
+	{"Salida 3"},
+  {"Salida 4"}
 };
 
  /**********************************************************************/

@@ -245,7 +245,6 @@ void loop() {
 
   if (digitalRead(BUTTON_UP_PIN) == LOW) { // Boton Arriba es presionado
     delay(220);
-    Serial.print(current_selected_item);
     menuHandleUp(current_menu_items);
   }
 
@@ -353,6 +352,10 @@ void menuHandleBack(uint8_t name)
           current_selected_item = 0;
           current_menu_items = NUM_ITEMS_MAIN;
       break;
+      case menu_salidas:
+          current_menu = menu_principal;
+          current_selected_item = 0;
+          current_menu_items = NUM_ITEMS_MAIN;
       case menu_red:
           current_menu = menu_principal;
           current_selected_item = 0;
@@ -400,9 +403,18 @@ void printMenu(uint8_t name, uint8_t selected_item, uint8_t max_menu_items)
             
         }
       break;
+
       case menu_graficos:
 
       break;
+      
+      case menu_salidas:
+        for(uint8_t i = 0; i < NUM_ITEMS_SALIDAS; i++){
+            display.setCursor(4,3+(13*i));
+            display.println(salidas_menu_items[i]);
+        }
+      break;
+      
       case menu_red:
         display.setCursor(4, 3);
         display.println(ssid);
