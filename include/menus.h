@@ -20,6 +20,7 @@ enum{
 enum{
   datos,
   graficos,
+  salidas,
   red,
   info
 }menu_principal_items;
@@ -29,16 +30,6 @@ enum{
   Temperatura_2,
   PH
 }menu_datos_items;
-
-enum{
-  Temperatura_1,
-  Temperatura_2,
-  PH
-}menu_graficos_items;
-
-enum{
-
-}menu_red_items;
 
 //Definición de los distintos menus
 const char main_menu_items [NUM_ITEMS_MAIN][MAX_ITEM_LENGTH] = {

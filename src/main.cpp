@@ -263,26 +263,29 @@ void loop() {
     switch(current_menu){
       case menu_principal:
       switch(current_selected_item){
-        case 0:
+        case datos:
         //Data menu
           current_menu = menu_datos;
           current_selected_item = 0;
           current_menu_items = NUM_ITEMS_DATOS;
           temperatura = readNTC();
         break;
-        case 1:
+        case graficos:
           //Graph menu
           current_menu = menu_graficos;
           current_selected_item = 0;
           current_menu_items = NUM_ITEMS_GRAFICOS;
         break;
-        case 2:
+        case salidas:
+          current_menu = menu_salidas;
+          current_selected_item = 0;
+          current_menu_items = NUM_ITEMS_SALIDAS;
+        break;
+        case red:
           //Menu red
           current_menu = menu_red;
           current_selected_item = 0;
           current_menu_items = 3;
-        break;
-        case 3:
         break;
         default:
         break;
@@ -294,6 +297,8 @@ void loop() {
       current_menu_items = NUM_ITEMS_DATOS;
       break;
       case menu_graficos:
+      break;
+      case menu_salidas:
       break;
       case menu_red:
       break;
