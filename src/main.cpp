@@ -7,6 +7,8 @@
 #include <Adafruit_SH110X.h>
 //Conexión WiFi
 #include <WiFi.h>
+//Hora y fecha
+#include "time.h"
 //Menus
 #include <menus.h>
 //ADC ADS1115
@@ -14,6 +16,8 @@
 #include <FS.h>
 #include <SD.h>
 #include <math.h>
+//Tests
+#include <ESP.h>
 
 #define ADC_ADDRESS 0x48
 #define OLED_ADDRESS 0x3c
@@ -43,6 +47,7 @@
 float readChannel(ADS1115_MUX channel);
 float readNTC (void);
 void ADC_Init (void);
+void printLocalTime(void);
 
 Adafruit_SH1106G display = Adafruit_SH1106G(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 ADS1115_WE adc = ADS1115_WE(ADC_ADDRESS);
@@ -60,6 +65,11 @@ const char *ssid = "MOVISTAR_28AC";
 const char *password = "n22x53Wmik8M3XagaqX7";
 //const char *ssid = "Taller";
 //const char *password = "fQh6*34&h7t?";
+
+//Variables Hora/Fecha
+const char* ntpServer = "pool.ntp.org";
+const long  gmtOffset_sec = 3600;
+const int   daylightOffset_sec = 3600;
 
 //Variables NTC
 float temperatura = 0.0;
@@ -99,6 +109,17 @@ void setup() {
   Serial.println("WiFi connected.");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
+
+  //Actualización fecha/hora
+  configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+  printLocalTime();
+
+  // Get the size of the flash memory
+  uint32_t flash_size = ESP.getFlashChipSize();
+  
+  Serial.print("Flash size: ");
+  Serial.print(flash_size);
+  Serial.println(" bytes");
 
   server.begin();
 
@@ -602,3 +623,13 @@ float readChannel(ADS1115_MUX channel) {
   display.fillRect(3, 48, 115, 20, SH110X_BLACK);
   display.fillRect(125, 0, 3, 64, SH110X_BLACK);
 }*/
+
+void printLocalTime()
+{
+  struct tm timeinfo;
+  if(!getLocalTime(&timeinfo)){
+    Serial.println("Failed to obtain time");
+    return;
+  }
+  Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
+}
