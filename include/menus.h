@@ -7,6 +7,8 @@
 #define NUM_ITEMS_DATOS  3
 #define NUM_ITEMS_GRAFICOS  3
 #define NUM_ITEMS_SALIDAS 4
+#define NUM_ITEMS_ENTRADAS 4
+#define NUM_ITEMS_RED 3
 
 enum{
 	menu_principal,
@@ -30,6 +32,20 @@ enum{
   Temperatura_2,
   PH
 }menu_datos_items;
+
+enum{
+  Salida_1,
+  Salida_2,
+  Salida_3,
+  Salida_4
+}menu_salidas_items;
+
+enum{
+  Entrada_1,
+  Entrada_2,
+  Entrada_3,
+  Entrada_4
+}menu_entradas_items;
 
 //Definición de los distintos menus
 const char main_menu_items [NUM_ITEMS_MAIN][MAX_ITEM_LENGTH] = {
@@ -57,6 +73,12 @@ const char salidas_menu_items [NUM_ITEMS_SALIDAS][MAX_ITEM_LENGTH] = {
 	{"Salida 2"},
 	{"Salida 3"},
   {"Salida 4"}
+};
+
+const char red_menu_items [NUM_ITEMS_RED][MAX_ITEM_LENGTH] = {
+	{"RED:"},
+	{"IP:"},
+	{"STAT:"}
 };
 
 class Acuario_Menu{
@@ -89,85 +111,29 @@ class Acuario_Menu{
       return current_menu_item_selected;
     }
 
-    void printCurrentMenu(void);
+    void initMenu(void);
+
     void menuHandleDown(void);
     void menuHandleUp(void);
     void menuHandleEnter(void);
     void menuHandleBack(void);
 
+    void printCurrentMenu(void);
+    void updateCurrentMenu(void);
+    void refreshCurrentMenu(void);
+
+    void printEditPopup(float data);
+    void printDatePopup(uint8_t Day, uint8_t Month, uint8_t Year);
+    void printTimePopup(uint8_t Hours, uint8_t Minutes, uint8_t Seconds);
+    void printTrailingText(uint8_t item_position, char* text);
+    void printTrailingIntNumber(uint8_t item_position, int number);
+    void printTrailingFloatNumber(uint8_t item_position, double number, uint8_t dec_pos);
+
   protected:
     uint8_t current_menu_name;
     uint8_t previous_menu_name;
     uint8_t current_menu_item_number;
-    uint8_t current_menu_item_selected;    
+    uint8_t current_menu_item_selected;   
+    uint8_t editing_flag = 0; 
 };
- /**********************************************************************/
-  /*!
-    @brief   Change to the menu in "name"
-    @param   name   one of the names defined in the "menu_name" enum
-  */
-  /**********************************************************************/
-void changeMenu(uint8_t name);
-
- /**********************************************************************/
-  /*!
-    @brief   Manage the UP button press on any menu.
-    @param   max_menu_items  number of menu items in the menu with name "name"
-  */
-  /**********************************************************************/
-void menuHandleUp(uint8_t max_menu_items);
-
-  /**********************************************************************/
-  /*!
-    @brief   Manage the DOWN button press on any menu.
-    @param   max_menu_items  number of menu items in the menu with name "name"
-  */
-  /**********************************************************************/
-void menuHandleDown(uint8_t max_menu_items);
-
- /**********************************************************************/
-  /*!
-    @brief   Manage the ENTER button press on any menu.
-    @param   name   one of the names defined in the "menu_name" enum
-    @param   selected_item  currently selected item
-  */
-  /**********************************************************************/
-void menuHandleEnter(uint8_t name, uint8_t selected_item);
-
- /**********************************************************************/
-  /*!
-    @brief   Print current menu in display
-    @param   name   one of the names defined in the "menu_name" enum 
-    @param   selected_item   currently selected tiem
-    @param   max_menu_items  number of menu items in the menu with name "name"
-  */
-  /**********************************************************************/
-void printMenu(uint8_t name, uint8_t selected_item, uint8_t max_menu_items);
-
-/**********************************************************************/
-  /*!
-    @brief   Update selection in "name" menu
-    @param   name   one of the names defined in the "menu_name" enum 
-    @param   selected_item   currently selected tiem
-    @param   max_menu_items  number of menu items in the menu with name "name"
-  */
-  /**********************************************************************/
-void updateMenu(uint8_t name, uint8_t selected_item, uint8_t max_menu_items);
-
-/**********************************************************************/
-  /*!
-    @brief   Update selection in "name" menu
-    @param   name   one of the names defined in the "menu_name" enum 
-  */
-  /**********************************************************************/
-void menuHandleBack(uint8_t name);
-
-/**********************************************************************/
-  /*!
-    @brief   Update selection in "name" menu
-    @param   name   one of the names defined in the "menu_name" enum 
-    @param   selected_item   currently selected tiem
-    @param   max_menu_items  number of menu items in the menu with name "name"
-  */
-  /**********************************************************************/
-void initMenu(void);
+ 

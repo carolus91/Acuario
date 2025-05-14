@@ -22,9 +22,6 @@
 #define ADC_ADDRESS 0x48
 #define OLED_ADDRESS 0x3c
 
-#define SCREEN_WIDTH        128
-#define SCREEN_HEIGHT       64
-
 #define BUTTON_UP_PIN       12  //GPIO para el botón "arriba"
 #define BUTTON_DOWN_PIN     14 //GPIO para el botón "abajo"
 #define BUTTON_OK_PIN       25 //GPIO para el botón "OK"
