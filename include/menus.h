@@ -59,6 +59,48 @@ const char salidas_menu_items [NUM_ITEMS_SALIDAS][MAX_ITEM_LENGTH] = {
   {"Salida 4"}
 };
 
+class Acuario_Menu{
+  public:
+    uint8_t getCurrentMenuName(void){
+      return current_menu_name;
+    }
+    
+    void setCurrentMenuName(uint8_t menu_name);
+    
+    uint8_t getPreviousMenuName(void){
+      return previous_menu_name;
+    }
+    
+    void setPreviousMenuName(uint8_t menu_name);
+    
+    uint8_t getCurrentMenuItems(void){
+      return current_menu_item_number;
+    }
+    
+    void setCurrentMenuItems(uint8_t items);
+    
+    uint8_t getCurrentMenuItems(void){
+      return current_menu_item_number;
+    }
+
+    void setCurrentMenuItemSelected(uint8_t item_selected);
+
+    uint8_t getCurrentMenuItemSelected(void){
+      return current_menu_item_selected;
+    }
+
+    void printCurrentMenu(void);
+    void menuHandleDown(void);
+    void menuHandleUp(void);
+    void menuHandleEnter(void);
+    void menuHandleBack(void);
+
+  protected:
+    uint8_t current_menu_name;
+    uint8_t previous_menu_name;
+    uint8_t current_menu_item_number;
+    uint8_t current_menu_item_selected;    
+};
  /**********************************************************************/
   /*!
     @brief   Change to the menu in "name"
@@ -119,3 +161,13 @@ void updateMenu(uint8_t name, uint8_t selected_item, uint8_t max_menu_items);
   */
   /**********************************************************************/
 void menuHandleBack(uint8_t name);
+
+/**********************************************************************/
+  /*!
+    @brief   Update selection in "name" menu
+    @param   name   one of the names defined in the "menu_name" enum 
+    @param   selected_item   currently selected tiem
+    @param   max_menu_items  number of menu items in the menu with name "name"
+  */
+  /**********************************************************************/
+void initMenu(void);
