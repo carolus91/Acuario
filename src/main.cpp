@@ -46,16 +46,18 @@ float readNTC (void);
 void ADC_Init (void);
 void printLocalTime(void);
 
-Adafruit_SH1106G display = Adafruit_SH1106G(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
+//Adafruit_SH1106G display = Adafruit_SH1106G(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 ADS1115_WE adc = ADS1115_WE(ADC_ADDRESS);
 
 //Menu
-uint8_t item_selected_main = 0;            // qué item en el menu esta seleccionado
+/*uint8_t item_selected_main = 0;            // qué item en el menu esta seleccionado
 uint8_t item_selected_datos = 0;
 uint8_t item_selected_graficos = 0;
 uint8_t current_menu = menu_principal;
 uint8_t current_menu_items = NUM_ITEMS_MAIN;
 uint8_t current_selected_item = item_selected_main;
+*/
+Acuario_Menu Menu;
 
 //Variables WiFi
 const char *ssid = "MOVISTAR_28AC";
@@ -120,17 +122,8 @@ void setup() {
 
   server.begin();
 
-  //Inicializa la pantalla
-  if(!display.begin(OLED_ADDRESS, true)){
-    Serial.println(F("SSD1306 allocation failed"));
-   for(;;);
-  }
-  delay(2000);
-  display.clearDisplay();
-  display.setTextSize(1);
- 
-  printMenu(current_menu, item_selected_main, current_menu_items);
-  
+  Menu.initMenu();
+   
   ADC_Init();
   
   //Digital pin configurations
@@ -263,20 +256,20 @@ void loop() {
 
   if (digitalRead(BUTTON_UP_PIN) == LOW) { // Boton Arriba es presionado
     delay(220);
-    menuHandleUp(current_menu_items);
+    //menuHandleUp(current_menu_items);
   }
 
   if (digitalRead(BUTTON_DOWN_PIN) == LOW) { // Boton Abajo es presionado
     delay(220);
-    menuHandleDown(current_menu_items);
+    //menuHandleDown(current_menu_items);
   }
 
   if (digitalRead(BUTTON_BACK_PIN) == LOW) { // Botón IZQUIERDA es presionado
     delay(220);
-    menuHandleBack(current_menu);
+    //menuHandleBack(current_menu);
   }
   
-  if (digitalRead(BUTTON_OK_PIN) == LOW) { // Boton OK es presionado
+  /*if (digitalRead(BUTTON_OK_PIN) == LOW) { // Boton OK es presionado
     while(digitalRead(BUTTON_OK_PIN) == LOW);
     switch(current_menu){
       case menu_principal:
@@ -335,8 +328,9 @@ void loop() {
       previousMillis = millis();
     }
   }
+  */
 }
-
+/*
 void changeMenu(uint8_t name)
 {
 
@@ -490,7 +484,7 @@ void updateMenu(uint8_t name, uint8_t selected_item, uint8_t max_menu_items)
     }
     display.display();
 }
-
+*/
 void ADC_Init (void)
 {
    if(!adc.init()){

@@ -6,11 +6,12 @@
 
 #define SCREEN_WIDTH        128
 #define SCREEN_HEIGHT       64
+#define OLED_ADDRESS        0x3C
 
 //Definición de la pantalla
 Adafruit_SH1106G display = Adafruit_SH1106G(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
-void updateMenu(uint8_t name, uint8_t selected_item, uint8_t max_menu_items)
+/*void updateMenu(uint8_t name, uint8_t selected_item, uint8_t max_menu_items)
 {
    //Display the lines dividing
     display.drawFastHLine(0,0,127,SH110X_WHITE);          //First line will be always displayed in list menus.
@@ -26,7 +27,7 @@ void updateMenu(uint8_t name, uint8_t selected_item, uint8_t max_menu_items)
       }
     }
     display.display();
-}
+}*/
 
 /// @brief Asigna el nombre del menú actual
 /// @param menu_name uno de los posibles nombres de los menus (enums)
@@ -52,7 +53,19 @@ void Acuario_Menu::setCurrentMenuItemSelected(uint8_t item_selected)
 
 void Acuario_Menu::initMenu(void)
 {
-
+    //Inicializa la pantalla
+  if(!display.begin(OLED_ADDRESS, true)){
+    Serial.println(F("SSD1306 allocation failed"));
+   for(;;);
+  }
+  delay(2000);
+  display.clearDisplay();
+  display.setTextSize(1);
+  current_menu_name = menu_principal;
+  previous_menu_name = menu_principal;
+  current_menu_item_number = NUM_ITEMS_MAIN;
+  current_menu_item_selected = datos;
+  printCurrentMenu();
 }
 
 void Acuario_Menu::menuHandleDown(void)

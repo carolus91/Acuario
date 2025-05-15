@@ -2,27 +2,28 @@
 
 //Definiciones para los menus
 
-#define MAX_ITEM_LENGTH  20
-#define NUM_ITEMS_MAIN  5
-#define NUM_ITEMS_DATOS  3
-#define NUM_ITEMS_GRAFICOS  3
-#define NUM_ITEMS_SALIDAS 4
-#define NUM_ITEMS_ENTRADAS 4
-#define NUM_ITEMS_RED 3
+#define MAX_ITEM_LENGTH       20
+#define NUM_ITEMS_MAIN        6
+#define NUM_ITEMS_DATOS       3
+#define NUM_ITEMS_GRAFICOS    3
+#define NUM_ITEMS_SALIDAS     4
+#define NUM_ITEMS_ENTRADAS    4
+#define NUM_ITEMS_RED         3
 
 enum{
 	menu_principal,
 	menu_datos,
 	menu_graficos,
+  menu_entradas,
   menu_salidas,
 	menu_red,
-  menu_entradas,
 	menu_info
 }menu_name;
 
 enum{
   datos,
   graficos,
+  entradas,
   salidas,
   red,
   info
@@ -53,6 +54,7 @@ const char main_menu_items [NUM_ITEMS_MAIN][MAX_ITEM_LENGTH] = {
 	{ "Datos" },
 	{ "Graficos" },
   { "Salidas" },
+  { "Entradas" },
 	{ "Red" },
 	{ "Info" },
 };
@@ -109,15 +111,11 @@ class Acuario_Menu{
     
     void setCurrentMenuItems(uint8_t items);
     
-    uint8_t getCurrentMenuItems(void){
-      return current_menu_item_number;
-    }
-
-    void setCurrentMenuItemSelected(uint8_t item_selected);
-
     uint8_t getCurrentMenuItemSelected(void){
       return current_menu_item_selected;
     }
+
+    void setCurrentMenuItemSelected(uint8_t item_selected);
 
     void initMenu(void);
 
