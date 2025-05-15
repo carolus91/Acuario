@@ -107,7 +107,11 @@ void Acuario_Menu::printCurrentMenu(void)
       break;
       
       case menu_red:
-        display.setCursor(4, 3);
+        for(uint8_t i = 0; i < NUM_ITEMS_RED; i++){
+            display.setCursor(4,3+(13*i));
+            display.println(red_menu_items[i]);
+        }
+/*       display.setCursor(4, 3);
         display.println(ssid);
         display.setCursor(4, 17);
         display.println(WiFi.localIP());
@@ -117,20 +121,27 @@ void Acuario_Menu::printCurrentMenu(void)
         }else{
           display.println("Conectado");
         }
-       
+*/    
       break;
       case menu_info:
 
       break;
+      case menu_entradas:
+        for(uint8_t i = 0; i < NUM_ITEMS_ENTRADAS; i++){
+            display.setCursor(4,3+(13*i));
+            display.println(entradas_menu_items[i]);
+        }     
+      break;
+
       default:
       break;
     }
     //Display the lines dividing
     display.drawFastHLine(0,0,127,SH110X_WHITE);          //First line will be always displayed in list menus.
-    for(uint8_t i = 1; i <= max_menu_items; i++){
+    for(uint8_t i = 1; i <= current_menu_item_number; i++){
       //display.setCursor(2,1+(10*i));
       display.drawFastHLine(0,(13*i),127,SH110X_WHITE);
-      if(selected_item == i-1){
+      if(current_menu_item_selected == i-1){
         //Wider lanes to remark the selected item
         display.drawFastHLine(0,(1+(13*(i-1))),127,SH110X_WHITE);
         display.drawFastVLine(0,13*(i-1),13,SH110X_WHITE);

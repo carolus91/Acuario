@@ -16,6 +16,7 @@ enum{
 	menu_graficos,
   menu_salidas,
 	menu_red,
+  menu_entradas,
 	menu_info
 }menu_name;
 
@@ -73,6 +74,13 @@ const char salidas_menu_items [NUM_ITEMS_SALIDAS][MAX_ITEM_LENGTH] = {
 	{"Salida 2"},
 	{"Salida 3"},
   {"Salida 4"}
+};
+
+const char entradas_menu_items [NUM_ITEMS_ENTRADAS][MAX_ITEM_LENGTH] = {
+	{"Entrada 1"},
+	{"Entrada 2"},
+	{"Entrada 3"},
+  {"Entrada 4"}
 };
 
 const char red_menu_items [NUM_ITEMS_RED][MAX_ITEM_LENGTH] = {
