@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include "time.h"
 
 //Definiciones para los menus
 
@@ -11,6 +12,7 @@
 #define NUM_ITEMS_RED         3
 
 enum{
+  pantalla_principal,
 	menu_principal,
 	menu_datos,
 	menu_graficos,

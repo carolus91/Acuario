@@ -33,22 +33,22 @@ Adafruit_SH1106G display = Adafruit_SH1106G(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, 
 /// @param menu_name uno de los posibles nombres de los menus (enums)
 void Acuario_Menu::setCurrentMenuName(uint8_t menu_name)
 {
-
+  current_menu_name = menu_name;
 }
 
 void Acuario_Menu::setPreviousMenuName(uint8_t menu_name)
 {
-
+  previous_menu_name = menu_name;
 }
 
 void Acuario_Menu::setCurrentMenuItems(uint8_t items)
 {
-
+  current_menu_item_number = items;
 }
 
 void Acuario_Menu::setCurrentMenuItemSelected(uint8_t item_selected)
 {
-
+  current_menu_item_selected = item_selected;
 }
 
 void Acuario_Menu::initMenu(void)
@@ -61,8 +61,8 @@ void Acuario_Menu::initMenu(void)
   delay(2000);
   display.clearDisplay();
   display.setTextSize(1);
-  current_menu_name = menu_principal;
-  previous_menu_name = menu_principal;
+  current_menu_name = pantalla_principal;
+  previous_menu_name = pantalla_principal;
   current_menu_item_number = NUM_ITEMS_MAIN;
   current_menu_item_selected = datos;
   printCurrentMenu();
@@ -90,11 +90,33 @@ void Acuario_Menu::menuHandleBack(void)
 
 void Acuario_Menu::printCurrentMenu(void)
 {
+    struct tm timeinfo;
     display.clearDisplay();                               //Clear Display.
     display.setTextColor(SH110X_WHITE);                   //Set text color.
     
     //Display the menu texts:
     switch(current_menu_name){
+      case pantalla_principal:
+        //Caso especial para la pantalla principal (display de datos)
+        display.setTextSize(1);
+        //Barra horizontal, arriba irá la hora.
+        display.setCursor(7,2);
+        getLocalTime(&timeinfo);
+        //https://cplusplus.com/reference/ctime/strftime/
+        display.println(&timeinfo, "%T  %D");
+        //display.println("hh:mm:ss dd:mm:yy"); //Hora
+        display.drawFastHLine(0,13,127,SH110X_WHITE); //Primera barra horizontal
+        display.drawFastVLine(41,13,38,SH110X_WHITE); //Barra vertical dividiendo
+        display.drawFastVLine(85,13,38,SH110X_WHITE); //Barra vertical dividiendo
+        display.drawFastHLine(0,51,127,SH110X_WHITE); //Barra horizontal abajo
+        for(uint8_t i = 0; i< 4; i++){
+          display.fillRoundRect(7+(13*i),54,9,9,1,SH110X_WHITE); //Rectángulo relleno (entrada activada?)
+        }
+        display.drawFastVLine(64,51,13,SH110X_WHITE); //Barra vertical divisora
+        for(uint8_t i = 0; i< 4; i++){
+          display.drawRoundRect(72+(13*i),54,9,9,1,SH110X_WHITE); //Rectángulo vacío (salida desactivada?)
+        }
+      break;
       case menu_principal:
         for(uint8_t i = 0; i < NUM_ITEMS_MAIN; i++){
             display.setCursor(4,3+(13*i));
@@ -150,16 +172,18 @@ void Acuario_Menu::printCurrentMenu(void)
       break;
     }
     //Display the lines dividing
-    display.drawFastHLine(0,0,127,SH110X_WHITE);          //First line will be always displayed in list menus.
-    for(uint8_t i = 1; i <= current_menu_item_number; i++){
-      //display.setCursor(2,1+(10*i));
-      display.drawFastHLine(0,(13*i),127,SH110X_WHITE);
-      if(current_menu_item_selected == i-1){
-        //Wider lanes to remark the selected item
-        display.drawFastHLine(0,(1+(13*(i-1))),127,SH110X_WHITE);
-        display.drawFastVLine(0,13*(i-1),13,SH110X_WHITE);
-        display.drawFastVLine(127,13*(i-1),13,SH110X_WHITE);
-        display.drawFastHLine(0,(13*i)-1,127,SH110X_WHITE);
+    if(current_menu_name != pantalla_principal){
+      display.drawFastHLine(0,0,127,SH110X_WHITE);          //First line will be always displayed in list menus.
+      for(uint8_t i = 1; i <= current_menu_item_number; i++){
+        //display.setCursor(2,1+(10*i));
+        display.drawFastHLine(0,(13*i),127,SH110X_WHITE);
+        if(current_menu_item_selected == i-1){
+          //Wider lanes to remark the selected item
+          display.drawFastHLine(0,(1+(13*(i-1))),127,SH110X_WHITE);
+          display.drawFastVLine(0,13*(i-1),13,SH110X_WHITE);
+          display.drawFastVLine(127,13*(i-1),13,SH110X_WHITE);
+          display.drawFastHLine(0,(13*i)-1,127,SH110X_WHITE);
+        }
       }
     }
     display.display();
