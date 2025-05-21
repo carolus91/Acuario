@@ -100,21 +100,35 @@ void Acuario_Menu::printCurrentMenu(void)
         //Caso especial para la pantalla principal (display de datos)
         display.setTextSize(1);
         //Barra horizontal, arriba irá la hora.
-        display.setCursor(7,2);
+        display.setCursor(15,2);
         getLocalTime(&timeinfo);
         //https://cplusplus.com/reference/ctime/strftime/
-        display.println(&timeinfo, "%T  %D");
+        display.println(&timeinfo, "%H:%M  %d/%m/%y");
         //display.println("hh:mm:ss dd:mm:yy"); //Hora
         display.drawFastHLine(0,13,127,SH110X_WHITE); //Primera barra horizontal
-        display.drawFastVLine(41,13,38,SH110X_WHITE); //Barra vertical dividiendo
-        display.drawFastVLine(85,13,38,SH110X_WHITE); //Barra vertical dividiendo
+        //display.drawFastVLine(0,13,38,SH110X_WHITE); //Barra vertical dividiendo
+        display.setCursor(16,21);
+        display.print("T1");
+        display.setCursor(9,35);
+        //display.printf("24.2");
+        display.drawFastVLine(41,20,24,SH110X_WHITE); //Barra vertical dividiendo
+        display.setCursor(59,21);
+        display.print("T2");
+        display.setCursor(51,35);
+        //display.printf("19.6");
+        display.drawFastVLine(85,20,24,SH110X_WHITE); //Barra vertical dividiendo
+        display.setCursor(101,21);
+        display.print("pH");
+        display.setCursor(98,35);
+        //display.printf("7.8");
+        //display.drawFastVLine(127,13,38,SH110X_WHITE); //Barra vertical dividiendo
         display.drawFastHLine(0,51,127,SH110X_WHITE); //Barra horizontal abajo
         for(uint8_t i = 0; i< 4; i++){
-          display.fillRoundRect(7+(13*i),54,9,9,1,SH110X_WHITE); //Rectángulo relleno (entrada activada?)
+          display.fillRoundRect(6+(14*i),55,9,9,1,SH110X_WHITE); //Rectángulo relleno (entrada activada?)
         }
         display.drawFastVLine(64,51,13,SH110X_WHITE); //Barra vertical divisora
         for(uint8_t i = 0; i< 4; i++){
-          display.drawRoundRect(72+(13*i),54,9,9,1,SH110X_WHITE); //Rectángulo vacío (salida desactivada?)
+          display.drawRoundRect(72+(14*i),55,9,9,1,SH110X_WHITE); //Rectángulo vacío (salida desactivada?)
         }
       break;
       case menu_principal:
