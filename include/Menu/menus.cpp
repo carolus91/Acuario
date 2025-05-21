@@ -70,17 +70,71 @@ void Acuario_Menu::initMenu(void)
 
 void Acuario_Menu::menuHandleDown(void)
 {
-
+  //Incrementar el índice y actualizar el menu
+  if(current_menu_item_selected == (current_menu_item_number - 1)){
+    current_menu_item_selected = 0;
+  }else{
+    current_menu_item_selected++;
+  }
+  updateCurrentMenu();
 }
 
 void Acuario_Menu::menuHandleUp(void)
 {
-
+  //Decrementar el índice y actualizar el menu
+  if(current_menu_item_selected == 0){
+    current_menu_item_selected = current_menu_item_number - 1;
+  }else{
+    current_menu_item_selected--;
+  }
+  updateCurrentMenu();
 }
 
 void Acuario_Menu::menuHandleEnter(void)
 {
-
+  //En general, al presionar OK, cambiamos al menú siguiente.
+  //Si estamos en el menú principal
+  if(current_menu_name == menu_principal){
+    setPreviousMenuName(menu_principal);
+    switch(current_menu_item_selected){
+      case datos:
+        setCurrentMenuName(menu_datos);
+        setCurrentMenuItems(NUM_ITEMS_DATOS);
+        setCurrentMenuItemSelected(0);
+      break;
+      case graficos:
+        setCurrentMenuName(menu_graficos);
+        setCurrentMenuItems(NUM_ITEMS_GRAFICOS);
+        setCurrentMenuItemSelected(0);
+      break;
+      case entradas:
+        setCurrentMenuName(menu_entradas);
+        setCurrentMenuItems(NUM_ITEMS_ENTRADAS);
+        setCurrentMenuItemSelected(0);
+      break;
+      case salidas:
+        setCurrentMenuName(menu_salidas);
+        setCurrentMenuItems(NUM_ITEMS_SALIDAS);
+        setCurrentMenuItemSelected(0);
+      break;
+      case red:
+        setCurrentMenuName(menu_red);
+        setCurrentMenuItems(NUM_ITEMS_RED);
+        setCurrentMenuItemSelected(0);
+      break;
+      case info:
+        setCurrentMenuName(menu_info);
+        setCurrentMenuItems(1);
+        setCurrentMenuItemSelected(0);
+      break;
+      default:
+        setCurrentMenuName(menu_datos);
+        setCurrentMenuItems(NUM_ITEMS_DATOS);
+        setCurrentMenuItemSelected(0);
+      break;
+    }
+  }
+  updateCurrentMenu();
 }
 
 void Acuario_Menu::menuHandleBack(void)
@@ -94,7 +148,7 @@ void Acuario_Menu::printCurrentMenu(void)
     display.clearDisplay();                               //Clear Display.
     display.setTextColor(SH110X_WHITE);                   //Set text color.
     
-    //Display the menu texts:
+    //Display the menus
     switch(current_menu_name){
       case pantalla_principal:
         //Caso especial para la pantalla principal (display de datos)

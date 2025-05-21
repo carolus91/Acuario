@@ -20,7 +20,7 @@
 #include <ESP.h>
 
 #define ADC_ADDRESS 0x48
-#define OLED_ADDRESS 0x3c
+//#define OLED_ADDRESS 0x3c
 
 #define BUTTON_UP_PIN       12  //GPIO para el botón "arriba"
 #define BUTTON_DOWN_PIN     14 //GPIO para el botón "abajo"
@@ -138,9 +138,6 @@ void setup() {
   pinMode(INPUT_3, INPUT_PULLDOWN);
   pinMode(INPUT_4, INPUT_PULLDOWN);
 
-//  pinMode(OUTPUT_1, OUTPUT);
-//  pinMode(OUTPUT_2, OUTPUT);
-//  pinMode(OUTPUT_3, OUTPUT);
   pinMode(OUTPUT_4, OUTPUT);
 
   pinMode(ENABLE_SD_SUPP,OUTPUT);
