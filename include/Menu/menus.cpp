@@ -33,6 +33,14 @@ void Acuario_Menu::setCurrentMenuItemSelected(uint8_t item_selected)
   current_menu_item_selected = item_selected;
 }
 
+void Acuario_Menu::setPreviousMenuItemSelected(uint8_t item_selected){
+  previous_menu_item_selected = item_selected;
+}
+
+void Acuario_Menu::setPreviousMenuItems(uint8_t item_number){
+  previous_menu_item_number = item_number;
+}
+
 void Acuario_Menu::initMenu(void)
 {
     //Inicializa la pantalla
@@ -46,6 +54,8 @@ void Acuario_Menu::initMenu(void)
   current_menu_name = pantalla_principal;
   previous_menu_name = pantalla_principal;
   current_menu_item_number = NUM_ITEMS_MAIN;
+  previous_menu_item_number = 0;
+  previous_menu_item_selected = 0;
   current_menu_item_selected = datos;
   printCurrentMenu();
 }
@@ -58,7 +68,7 @@ void Acuario_Menu::menuHandleDown(void)
   }else{
     current_menu_item_selected++;
   }
-  updateCurrentMenu();
+  printCurrentMenu();
 }
 
 void Acuario_Menu::menuHandleUp(void)
@@ -69,7 +79,7 @@ void Acuario_Menu::menuHandleUp(void)
   }else{
     current_menu_item_selected--;
   }
-  updateCurrentMenu();
+  printCurrentMenu();
 }
 
 void Acuario_Menu::menuHandleEnter(void)
@@ -78,42 +88,56 @@ void Acuario_Menu::menuHandleEnter(void)
   //Si estamos en el menú principal
   if(current_menu_name == pantalla_principal){
     setPreviousMenuName(pantalla_principal);
-    switch(current_menu_item_selected){
-      case datos:
-        setCurrentMenuName(menu_datos);
-        setCurrentMenuItems(NUM_ITEMS_DATOS);
-        setCurrentMenuItemSelected(0);
-      break;
-      case graficos:
-        setCurrentMenuName(menu_graficos);
-        setCurrentMenuItems(NUM_ITEMS_GRAFICOS);
-        setCurrentMenuItemSelected(0);
-      break;
-      case entradas:
-        setCurrentMenuName(menu_entradas);
-        setCurrentMenuItems(NUM_ITEMS_ENTRADAS);
-        setCurrentMenuItemSelected(0);
-      break;
-      case salidas:
-        setCurrentMenuName(menu_salidas);
-        setCurrentMenuItems(NUM_ITEMS_SALIDAS);
-        setCurrentMenuItemSelected(0);
-      break;
-      case red:
-        setCurrentMenuName(menu_red);
-        setCurrentMenuItems(NUM_ITEMS_RED);
-        setCurrentMenuItemSelected(0);
-      break;
-      case info:
-        setCurrentMenuName(menu_info);
-        setCurrentMenuItems(1);
-        setCurrentMenuItemSelected(0);
-      break;
-      default:
-        setCurrentMenuName(menu_datos);
-        setCurrentMenuItems(NUM_ITEMS_DATOS);
-        setCurrentMenuItemSelected(0);
-      break;
+    setCurrentMenuName(menu_principal);
+    setCurrentMenuItems(NUM_ITEMS_MAIN);
+    setCurrentMenuItemSelected(0);
+  }else{
+    if(current_menu_name == menu_principal){
+      setPreviousMenuName(menu_principal);
+      setPreviousMenuItems(NUM_ITEMS_MAIN);
+      switch(current_menu_item_selected){
+        case datos:
+          setCurrentMenuName(menu_datos);
+          setCurrentMenuItems(NUM_ITEMS_DATOS);
+          setCurrentMenuItemSelected(0);
+          setPreviousMenuItemSelected(datos);
+        break;
+        case graficos:
+          setCurrentMenuName(menu_graficos);
+          setCurrentMenuItems(NUM_ITEMS_GRAFICOS);
+          setCurrentMenuItemSelected(0);
+          setPreviousMenuItemSelected(graficos);
+        break;
+        case entradas:
+          setCurrentMenuName(menu_entradas);
+          setCurrentMenuItems(NUM_ITEMS_ENTRADAS);
+          setCurrentMenuItemSelected(0);
+          setPreviousMenuItemSelected(entradas);
+        break;
+        case salidas:
+          setCurrentMenuName(menu_salidas);
+          setCurrentMenuItems(NUM_ITEMS_SALIDAS);
+          setCurrentMenuItemSelected(0);
+          setPreviousMenuItemSelected(salidas);
+        break;
+        case red:
+          setCurrentMenuName(menu_red);
+          setCurrentMenuItems(NUM_ITEMS_RED);
+          setCurrentMenuItemSelected(0);
+          setPreviousMenuItemSelected(red);
+        break;
+        case info:
+          setCurrentMenuName(menu_info);
+          setCurrentMenuItems(1);
+          setCurrentMenuItemSelected(0);
+          setPreviousMenuItemSelected(info);
+        break;
+        default:
+          setCurrentMenuName(menu_datos);
+          setCurrentMenuItems(NUM_ITEMS_DATOS);
+          setCurrentMenuItemSelected(0);
+        break;
+      }
     }
   }
   printCurrentMenu();
@@ -121,7 +145,10 @@ void Acuario_Menu::menuHandleEnter(void)
 
 void Acuario_Menu::menuHandleBack(void)
 {
-
+  setCurrentMenuName(getPreviousMenuName());
+  setCurrentMenuItems(getPreviousMenuItems());
+  setCurrentMenuItemSelected(getPreviousMenuItemSelected());
+  printCurrentMenu();
 }
 
 void Acuario_Menu::printCurrentMenu(void)
@@ -184,6 +211,13 @@ void Acuario_Menu::printCurrentMenu(void)
 
       break;
       
+      case menu_entradas:
+        for(uint8_t i = 0; i < NUM_ITEMS_ENTRADAS; i++){
+            display.setCursor(4,3+(13*i));
+            display.println(entradas_menu_items[i]);
+        }     
+      break;
+      
       case menu_salidas:
         for(uint8_t i = 0; i < NUM_ITEMS_SALIDAS; i++){
             display.setCursor(4,3+(13*i));
@@ -210,12 +244,6 @@ void Acuario_Menu::printCurrentMenu(void)
       break;
       case menu_info:
 
-      break;
-      case menu_entradas:
-        for(uint8_t i = 0; i < NUM_ITEMS_ENTRADAS; i++){
-            display.setCursor(4,3+(13*i));
-            display.println(entradas_menu_items[i]);
-        }     
       break;
 
       default:

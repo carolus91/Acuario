@@ -55,8 +55,8 @@ enum{
 const char main_menu_items [NUM_ITEMS_MAIN][MAX_ITEM_LENGTH] = {
 	{ "Datos" },
 	{ "Graficos" },
-  { "Salidas" },
   { "Entradas" },
+  { "Salidas" },
 	{ "Red" },
 	{ "Info" },
 };
@@ -107,6 +107,18 @@ class Acuario_Menu{
     
     void setPreviousMenuName(uint8_t menu_name);
     
+    uint8_t getPreviousMenuItemSelected(void){
+      return previous_menu_item_selected;
+    }
+
+    uint8_t getPreviousMenuItems(void){
+      return previous_menu_item_number;
+    }
+
+    void setPreviousMenuItems(uint8_t item_number);
+
+    void setPreviousMenuItemSelected(uint8_t item_selected);
+
     uint8_t getCurrentMenuItems(void){
       return current_menu_item_number;
     }
@@ -140,6 +152,8 @@ class Acuario_Menu{
   protected:
     uint8_t current_menu_name;
     uint8_t previous_menu_name;
+    uint8_t previous_menu_item_number;
+    uint8_t previous_menu_item_selected;
     uint8_t current_menu_item_number;
     uint8_t current_menu_item_selected;   
     uint8_t editing_flag = 0; 
