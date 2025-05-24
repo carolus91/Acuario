@@ -253,79 +253,26 @@ void loop() {
 
   if (digitalRead(BUTTON_UP_PIN) == LOW) { // Boton Arriba es presionado
     delay(220);
+    Menu.menuHandleUp();
     //menuHandleUp(current_menu_items);
   }
 
   if (digitalRead(BUTTON_DOWN_PIN) == LOW) { // Boton Abajo es presionado
     delay(220);
+    Menu.menuHandleDown();
     //menuHandleDown(current_menu_items);
   }
 
   if (digitalRead(BUTTON_BACK_PIN) == LOW) { // Botón IZQUIERDA es presionado
     delay(220);
+    Menu.menuHandleBack();
     //menuHandleBack(current_menu);
   }
   
-  /*if (digitalRead(BUTTON_OK_PIN) == LOW) { // Boton OK es presionado
+  if (digitalRead(BUTTON_OK_PIN) == LOW) { // Boton OK es presionado
     while(digitalRead(BUTTON_OK_PIN) == LOW);
-    switch(current_menu){
-      case menu_principal:
-      switch(current_selected_item){
-        case datos:
-        //Data menu
-          current_menu = menu_datos;
-          current_selected_item = 0;
-          current_menu_items = NUM_ITEMS_DATOS;
-          temperatura = readNTC();
-        break;
-        case graficos:
-          //Graph menu
-          current_menu = menu_graficos;
-          current_selected_item = 0;
-          current_menu_items = NUM_ITEMS_GRAFICOS;
-        break;
-        case salidas:
-          current_menu = menu_salidas;
-          current_selected_item = 0;
-          current_menu_items = NUM_ITEMS_SALIDAS;
-        break;
-        case red:
-          //Menu red
-          current_menu = menu_red;
-          current_selected_item = 0;
-          current_menu_items = 3;
-        break;
-        default:
-        break;
-      }
-      break;
-      case menu_datos:
-      current_menu = menu_datos;
-      current_selected_item = 0;
-      current_menu_items = NUM_ITEMS_DATOS;
-      break;
-      case menu_graficos:
-      break;
-      case menu_salidas:
-      break;
-      case menu_red:
-      break;
-      case menu_info:
-      break;
-      default:
-      break;
-    }
-    printMenu(current_menu, current_selected_item, current_menu_items);
+    Menu.menuHandleEnter();
   }
-  if(current_menu == menu_datos){
-    currentMillis = millis();
-    if((unsigned long)(currentMillis - previousMillis) >= interval){
-      temperatura = readNTC();
-      printMenu(current_menu, current_selected_item, current_menu_items);
-      previousMillis = millis();
-    }
-  }
-  */
 }
 /*
 void changeMenu(uint8_t name)

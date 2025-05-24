@@ -11,24 +11,6 @@
 //Definición de la pantalla
 Adafruit_SH1106G display = Adafruit_SH1106G(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
-/*void updateMenu(uint8_t name, uint8_t selected_item, uint8_t max_menu_items)
-{
-   //Display the lines dividing
-    display.drawFastHLine(0,0,127,SH110X_WHITE);          //First line will be always displayed in list menus.
-    for(uint8_t i = 1; i <= NUM_ITEMS_MAIN; i++){
-      //display.setCursor(2,1+(10*i));
-      display.drawFastHLine(0,(13*i),127,SH110X_WHITE);
-      if(selected_item == i-1){
-        //Wider lanes to remark the selected item
-        display.drawFastHLine(0,(1+(13*(i-1))),127,SH110X_WHITE);
-        display.drawFastVLine(0,13*(i-1),13,SH110X_WHITE);
-        display.drawFastVLine(127,13*(i-1),13,SH110X_WHITE);
-        display.drawFastHLine(0,(13*i)-1,127,SH110X_WHITE);
-      }
-    }
-    display.display();
-}*/
-
 /// @brief Asigna el nombre del menú actual
 /// @param menu_name uno de los posibles nombres de los menus (enums)
 void Acuario_Menu::setCurrentMenuName(uint8_t menu_name)
@@ -94,8 +76,8 @@ void Acuario_Menu::menuHandleEnter(void)
 {
   //En general, al presionar OK, cambiamos al menú siguiente.
   //Si estamos en el menú principal
-  if(current_menu_name == menu_principal){
-    setPreviousMenuName(menu_principal);
+  if(current_menu_name == pantalla_principal){
+    setPreviousMenuName(pantalla_principal);
     switch(current_menu_item_selected){
       case datos:
         setCurrentMenuName(menu_datos);
@@ -134,7 +116,7 @@ void Acuario_Menu::menuHandleEnter(void)
       break;
     }
   }
-  updateCurrentMenu();
+  printCurrentMenu();
 }
 
 void Acuario_Menu::menuHandleBack(void)
