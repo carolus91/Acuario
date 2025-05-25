@@ -4,12 +4,17 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SH110X.h>
 
+#include <Medida.h>
+
 #define SCREEN_WIDTH        128
 #define SCREEN_HEIGHT       64
 #define OLED_ADDRESS        0x3C
 
 //Definición de la pantalla
 Adafruit_SH1106G display = Adafruit_SH1106G(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
+
+extern medida temperaturaAgua;
+extern medida temperaturaExterna;
 
 /// @brief Asigna el nombre del menú actual
 /// @param menu_name uno de los posibles nombres de los menus (enums)
@@ -153,7 +158,6 @@ void Acuario_Menu::menuHandleBack(void)
 
 void Acuario_Menu::printCurrentMenu(void)
 {
-    struct tm timeinfo;
     display.clearDisplay();                               //Clear Display.
     display.setTextColor(SH110X_WHITE);                   //Set text color.
     
@@ -161,7 +165,7 @@ void Acuario_Menu::printCurrentMenu(void)
     switch(current_menu_name){
       case pantalla_principal:
         //Caso especial para la pantalla principal (display de datos)
-        display.setTextSize(1);
+        //display.setTextSize(1);
         //Barra horizontal, arriba irá la hora.
         display.setCursor(15,2);
         getLocalTime(&timeinfo);
@@ -173,12 +177,14 @@ void Acuario_Menu::printCurrentMenu(void)
         display.setCursor(16,21);
         display.print("T1");
         display.setCursor(9,35);
+        display.printf("%2.1f",temperaturaAgua.getMeasureValue());
         //display.printf("24.2");
         display.drawFastVLine(41,20,24,SH110X_WHITE); //Barra vertical dividiendo
         display.setCursor(59,21);
         display.print("T2");
         display.setCursor(51,35);
         //display.printf("19.6");
+        display.printf("%2.1f",temperaturaExterna.getMeasureValue());
         display.drawFastVLine(85,20,24,SH110X_WHITE); //Barra vertical dividiendo
         display.setCursor(101,21);
         display.print("pH");
@@ -217,7 +223,7 @@ void Acuario_Menu::printCurrentMenu(void)
             display.println(entradas_menu_items[i]);
         }     
       break;
-      
+
       case menu_salidas:
         for(uint8_t i = 0; i < NUM_ITEMS_SALIDAS; i++){
             display.setCursor(4,3+(13*i));
@@ -290,7 +296,22 @@ void Acuario_Menu::updateCurrentMenu(void)
 
 void Acuario_Menu::refreshCurrentMenu(void)
 {
-
+  if(current_menu_name == pantalla_principal){
+        display.setCursor(15,2);
+        getLocalTime(&timeinfo);
+        //https://cplusplus.com/reference/ctime/strftime/
+        display.println(&timeinfo, "%H:%M  %d/%m/%y");
+        display.setCursor(16,21);
+        display.print("T1");
+        display.setCursor(9,35);
+        display.printf("%2.1f",temperaturaAgua.getMeasureValue());
+        //display.printf("24.2");
+        display.setCursor(59,21);
+        display.print("T2");
+        display.setCursor(51,35);
+        display.printf("%2.1f",temperaturaExterna.getMeasureValue());
+        display.display();
+  }
 }
 
 void Acuario_Menu::printEditPopup(float data)

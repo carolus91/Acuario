@@ -157,5 +157,6 @@ class Acuario_Menu{
     uint8_t current_menu_item_number;
     uint8_t current_menu_item_selected;   
     uint8_t editing_flag = 0; 
+    struct tm timeinfo;
 };
  
